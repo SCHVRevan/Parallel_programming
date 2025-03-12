@@ -1,8 +1,6 @@
 // компилируется:
 // mpicxx -O lab1_3.c -o lab1_3
-
 #include <stdio.h>
-#include <math.h>
 #include <mpi.h>
 #include <time.h>
 #include <iostream>
