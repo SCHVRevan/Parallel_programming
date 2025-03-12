@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
    cout << "Process " << rank << ": " << x << "\n";
    MPI_Gather(&x, 1, MPI_DOUBLE, recv_buff, 1, MPI_DOUBLE, 2, MPI_COMM_WORLD);
 
-   // Show gathered elements of array on proccess №2
+   // Show gathered elements of array on process №2
   if (rank == 2) {
     cout << "\nGather check (process " << rank << "):\nrecv[2]: " << recv_buff[2] << "\n";
     for (int i = 0; i < size; i++) {
