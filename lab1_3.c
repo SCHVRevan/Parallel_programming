@@ -1,5 +1,5 @@
 // компилируется:
-// mpicxx -O {name}.c -o {name}
+// mpicxx -O lab1_3.c -o lab1_3
 
 #include <stdio.h>
 #include <math.h>
