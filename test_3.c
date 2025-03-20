@@ -33,16 +33,17 @@ int main(int argc, char **argv) {
    for (int k = 0; k < q; k++) {
 	if (rank + pow(2, k) < size) {
 		MPI_Send(&sum, 1, MPI_INT, rank + pow(2, k), tag, MPI_COMM_WORLD);
-		cout << "Process " << rank << " sending to " << rank + pow(2, k) << "\n";
+//		cout << "Process " << rank << " sending to " << rank + pow(2, k) << "\n";
 	}
 	if (rank - pow(2, k) > 0) {
 		MPI_Recv(&buff, 1, MPI_INT, rank - pow(2, k), tag, MPI_COMM_WORLD, &status);
+		cout << "Process " << rank << ":  " << sum << " + " << buff << "\n";
 		sum += buff;
 	}
    }
 
    MPI_Barrier(MPI_COMM_WORLD);
-   cout << "Process " << rank << " sum = " << sum << "\n";
+   cout << "Process " << rank << ":  sum = " << sum << "\n";
 
    MPI_Finalize();
    return 0;
