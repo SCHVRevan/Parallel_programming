@@ -19,32 +19,36 @@ long double f(long double x) {
 
 int main(int argc, char **argv) {
    int size, rank, tag = 21;
-   long double clock, res, buff, x, a = 1, b = 2;
+   long double clock, buff, x, res = 0, a = 1, b = 2;
    MPI_Status status;
    MPI_Init(&argc, &argv);
    MPI_Comm_size(MPI_COMM_WORLD, &size);
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
+   long double h = (b - a) / 1000000;
    // Start timer on process 0
    if (rank == 0) clock = MPI_Wtime();
 
-   long double h = (b - a) / size;
-   x = a + h * rank;
-   res = f(x);
+   for (int i = 1; i < 1000000; i++) {
+	if (rank == i % size) {
+		x = a + h * i;
+		res += f(x);
+	}
+   }
 
-   // Constructing result on process 0
    if (rank != 0) MPI_Send(&res, 1, MPI_LONG_DOUBLE, 0, tag, MPI_COMM_WORLD);
    else {
-	res = (f(a) + f(b)) / 2;
 	for (int i = 1; i < size; i++) {
 		MPI_Recv(&buff, 1, MPI_LONG_DOUBLE, i, tag, MPI_COMM_WORLD, &status);
 		res += buff;
-   	}
-	res = h * res;
+	}
    }
 
+   // Constructing result on process 0
    if (rank == 0) {
-	clock = MPI_Wtime() - clock;
+	res *= h;
+	res += h * ((f(a) + f(b)) / 2);
+ 	clock = MPI_Wtime() - clock;
 	cout << "Process " << rank << ":    I = " << setprecision(10) << res << "\n";
 	cout << "Process 0: time = " << clock << " s\n";
    }
