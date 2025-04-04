@@ -1,9 +1,6 @@
 // compile:
 // mpicxx -O test_5.c -o test_5
 
-// 4. f(x, y) = | xy(x + y)|, D = {|x| + |y| <= 1}
-// Метод ячеек: sum(i, N)(f(x[i], y[i])*S[i])
-
 #include <stdio.h>
 #include <math.h>
 #include <mpi.h>
