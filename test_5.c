@@ -10,7 +10,7 @@ using namespace std;
 
 // Required function
 long double f(long double x, long double y) {
-	long double res = 1;
+	long double res = 0;
 	// abs() работает некорректно
 	if (x < 0) x *= -1;
 	if (y < 0) y *= -1;
@@ -36,14 +36,13 @@ int main(int argc, char **argv) {
    if (rank == 0) clock = MPI_Wtime();
 
    // Распределение столбцов сетки по процессам
-   for (int i = 1 + rank; i < N; i += size) {
+   for (int i = 0 + rank; i < N; i += size) {
 	x = x0 + i*hx + hx/2;
 	// Вычисление интеграла по столбцу
 	for (int j = 0; j < N; j++) {
 		y = y0 + j*hy + hy/2;
 		buff = f(x, y);
-		// Проверка принадлежности координат области
-		if (buff < 1) res += buff;
+		res += buff;
 	}
    }
 
