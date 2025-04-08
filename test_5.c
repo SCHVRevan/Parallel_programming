@@ -41,8 +41,7 @@ int main(int argc, char **argv) {
 	// Вычисление интеграла по столбцу
 	for (int j = 0; j < N; j++) {
 		y = y0 + j*hy + hy/2;
-		buff = f(x, y);
-		res += buff;
+		res += f(x, y);
 	}
    }
 
